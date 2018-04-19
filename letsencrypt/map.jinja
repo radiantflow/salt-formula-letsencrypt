@@ -1,6 +1,23 @@
 
 {%- load_yaml as base_defaults %}
+
 Debian:
+  source:
+    engine: pkg
+    pkgs:
+      - certbot
+    pkgs_apache:
+      - python-certbot-apache
+    pkgs_nginx:
+      - python-certbot-nginx
+    cli: certbot
+  conf_dir: /etc/letsencrypt
+  auth:
+    method: standalone
+    type: http-01
+    port: 9999
+  pkg_openssl: openssl
+Ubuntu:
   source:
     engine: pkg
     pkgs:
