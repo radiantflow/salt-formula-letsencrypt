@@ -22,6 +22,18 @@ certbot_packages:
     - watch_in:
       - cmd: certbot_installed
 
+
+{%- if grains.get('os') == 'Ubuntu' %}
+
+certbot_ppa:
+  pkgrepo.managed:
+    - ppa: certbot/certbot
+    - require_in:
+      - pkg: certbot_packages
+
+{%- endif %}
+
+
 {%- elif client.source.engine == 'url' %}
 
 certbot_auto_packages:
