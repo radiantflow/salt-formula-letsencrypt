@@ -7,7 +7,7 @@
 {%-   set staging = '' %}
 {%- endif %}
 
-{%- for domain, params in client.get('domain', {}).iteritems() %}
+{%- for domain, params in client.get('domain', {}).items() %}
 {%- if params.get('enabled', true) %}
 {%- set auth = params.auth|default(client.auth) %}
 {%- set main_domain = params.name|default(domain) %}
@@ -25,7 +25,7 @@ certbot_{{ domain }}:
     - name: >
         certbot certonly {{ staging }} --non-interactive --agree-tos --no-self-upgrade --email {{ params.email|default(client.email) }}
         {%- if auth.method == 'standalone' %}
-        --standalone --standalone-supported-challenges {{ auth.type }} --http-01-port {{ auth.port }}
+        --standalone --preferred-challenges {{ auth.type }} --http-01-port {{ auth.port }}
         {%- elif auth.method == 'webroot' %}
         --webroot --webroot-path {{ auth.path }}
         {%- elif auth.method in ['apache', 'nginx'] %}
